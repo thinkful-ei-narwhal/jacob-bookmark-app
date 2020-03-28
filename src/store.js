@@ -1,8 +1,10 @@
+import api from './api'
 
 const bookmarks = [];
 const adding = false;
 const filter = 0;
 const error = null;
+const expanded = false;
 
 
 function findById(id) {
@@ -15,8 +17,10 @@ function findAndUpdate(id, newData) {
 }
 
 
-function addItem(item) {
-   this.items.push(item);
+function addBookmark(bookmark) {
+   bookmark.expanded = false;
+   this.bookmarks.push(bookmark);
+
 }
 
 function findAndDelete(id) {
@@ -33,10 +37,9 @@ const setError = function (error) {
 
 export default {
   bookmarks,
-  hideCheckedItems,
   findAndUpdate,
   findById,
-  addItem,
+  addBookmark,
   findAndDelete,
   toggleRatingFilter,
   setError

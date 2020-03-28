@@ -2,19 +2,21 @@ import "../styles.css";
 import api from './api';
 import $ from 'jquery';
 import bookmarks from './bookmarks'
+import store from './store'
 
 const main = function () {
-    api.createBookmark('Title')
-        .then(res => res.json())
-        .then((newBookmark) => {
-            return api.getBookmarks();
-        })
-        .then(res => res.json())
-        .then((bookmarks) => {
-            console.log(bookmarks);
-        })
-    // bookmarks.bindEventListeners();
-    // bookmarks.render();
+console.log(api.getBookmarks());
+ 
+
+api.getBookmarks()
+    .then((bookmarks) => {
+        return Object.keys(bookmarks).forEach((bookmark) => store.addBookmark(bookmark))
+     })
+
+     
+
+    bookmarks.bindEventListeners();
+    bookmarks.render();
   };
   
 

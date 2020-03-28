@@ -1,5 +1,5 @@
 const BASE_URL = 'https://thinkful-list-api.herokuapp.com/jacobflaxman1';
-
+import store from './store'
 
 // const listApiFetch = function (...args) {
 //     // setup var in scope outside of promise chain
@@ -42,9 +42,9 @@ const getBookmarks = function () {
 
 
   
-  const createBookmark = function (name) {
-    const newBookmark = JSON.stringify({ name });
-    return fetch (`${BASE_URL}/boomarks`, {
+  const createBookmark = function (title, url) {
+    const newBookmark = JSON.stringify({ title, url });
+    return fetch (`${BASE_URL}/bookmarks`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -52,26 +52,27 @@ const getBookmarks = function () {
       body: newBookmark
     });
   };
-//   const updateItem = function (id, updateData) {
-//     const newData = JSON.stringify(updateData);
-//     return listApiFetch(`${BASE_URL}/bookmarks/${id}`, {
-//       method: 'PATCH',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: newData
-//     });
-//   };
+
+ const updateBookmark = function (id, updateData) {
+    const newData = JSON.stringify(updateData);
+    return listApiFetch(`${BASE_URL}/bookmarks/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: newData
+    });
+  };
   
-//   const deleteItem = function (id) {
-//     return listApiFetch(`${BASE_URL}/bookmarks/${id}`, {
-//       method: 'DELETE'
-//     });
-//   };
+  const deleteBookmark = function (id) {
+    return listApiFetch(`${BASE_URL}/bookmarks/${id}`, {
+      method: 'DELETE'
+    });
+  };
   
   export default {
     getBookmarks,
     createBookmark,
-    // updateItem,
-    // deleteItem
+    updateBookmark,
+    deleteBookmark
   };
