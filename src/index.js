@@ -5,18 +5,19 @@ import bookmarks from './bookmarks'
 import store from './store'
 
 const main = function () {
-console.log(api.getBookmarks());
- 
 
 api.getBookmarks()
+    .then(res => res.json())
     .then((bookmarks) => {
-        return Object.keys(bookmarks).forEach((bookmark) => store.addBookmark(bookmark))
+        console.log('index 13', bookmarks)
+        return bookmarks.forEach((bookmark) => store.addBookmark(bookmark))
      })
+     .then(event =>
+        {
+        bookmarks.bindEventListeners();
 
-     
-
-    bookmarks.bindEventListeners();
-    bookmarks.render();
+         bookmarks.render();
+        })
   };
   
 

@@ -1,25 +1,28 @@
 import $ from 'jquery';
 import store from './store'
 import api from './api';
+import index from './index'
 
 const generateAddandFilterButton = function () {
-    return  `  
+    return  `
+    <div id = 'add-filter-buttons'>  
      <div class = 'add-new-button'>
-        <button class = 'add-new'> New Bookmark </button> 
+        <button class = 'add-new'> + Bookmark </button> 
     </div>
     <div class = 'dropdown'>
         <form id = 'filter-form'>
             <button class= "dropbtn" > Filter By </button>
                 <div class="dropdown-content">
-                    <a href='#'> <span> &#9733; </span></a>
-                    <a href="#"><span> &#9733; &#9733; </span> </a>
-                    <a href="#"><span> &#9733; &#9733; &#9733; </span></a>
-                    <a href="#"><span> &#9733; &#9733; &#9733; &#9733; </span></a>
-                    <a href="#"><span> &#9733; &#9733; &#9733; &#9733; &#9733; </span></a>
+                    <ul id = 'filter-stars'>
+                        <li><span> &#9733; </span></li>
+                        <li><span> &#9733; &#9733; </span> </li>
+                        <li><span> &#9733; &#9733; &#9733; </span></li>
+                        <li><span> &#9733; &#9733; &#9733; &#9733; </span></li>
+                        <li><span> &#9733; &#9733; &#9733; &#9733; &#9733; </span></li>
                 </div>
         </form>
-     </div>`;
-    
+     </div>
+    </div>`; 
 }
 
 
@@ -38,21 +41,29 @@ const generateAddandFilterButton = function () {
 
 
 const generateBookmarkElement = function(bookmark) {
-  
        return  ` 
-       <div id = ${bookmark.id} class = 'bookmark'>
-            <div id = 'title'> <span> ${bookmark.title} </span> <span> ${generateStars(bookmark.rating)} </span> </div>
+       <div id = '${bookmark.id}' class = 'bookmark'>
+            <div id = 'title'> ${bookmark.title}<span id = 'stars'> ${generateStars(bookmark.rating)} </span> </div>
+            <div id = 'expand'> <button id = 'collapsible' type = 'collapsible'>&#x2193</button> </div>
+            
             <div id = 'content' hidden> 
                 <div> 
-                   <a href = '${bookmark.url}'> <button type = 'button' id = 'visit-site> Visit Site </button> </a>
+                   <a href = '${bookmark.url}'> <button type = 'button' id = 'visit-site'> Visit Site </button> </a>
                     <span> ${bookmark.rating} </span>
                 </div>
-                <p> ${bookmark.desc} </p>
+                <p> ${bookmark.desc} </p> 
             </div>
         </div> ` //onclick unhide the div
 
 }
 
+const handleExpandView = function () {
+    $('#add-new-filter-container').on('click', '#collapsible', event => {
+        event.preventDefault();
+        $('#content').closest('div').toggle(500);
+    });
+
+} 
 const generateStars = function (numOfStars) {
     let stars = '';
    // &#9733  -> filled in 
@@ -71,25 +82,21 @@ return stars;
 
 
 const generateBookmarkElementString = function (bookmarkList) {
-    const bookmarks = bookmarkList.map((bookmark) => generateBookmarkElement(bookmark));
-    return bookmarks.join('');
+    let bookmarks = bookmarkList.map(bookmark => generateBookmarkElement(bookmark)).join("");
+    console.log('line 76', bookmarkList)
+    console.log(generateBookmarkElement(bookmarks))
+    return bookmarks;
   };
+
 
 
 const generateAddBookmarkPage = function () {
     //if add bookark clicked generate this HTML
 }
 
-const generateExpandedView = function (expandedView) { //pass the bookmark.id
-    $(expandedView).click(function() {
-        $(expandedView).find('.content').toggle("slide", { direction: "down" }, 1000);
-    });
-//might need to quotes around expandedView
-}
-
-const generateError = function (message) {
-    //HTML for error message
-}
+// const generateError = function (message) {
+//     //HTML for error message
+// }
 
 
 const generateAddandFilterForms = function() {
@@ -104,6 +111,7 @@ const generateAddandFilterForms = function() {
         <label for = 'description-input'>Description: </label>
         <input type = 'text' id = 'description-input' name = 'submit-bookmark-form' placeholder = 'Enter your description here:'>
         <button id = 'create' type = 'submit'> Create </button>
+        <button id = 'cancel-button' type = 'submit'> Cancel </button>
     </form>
     `;
 
@@ -130,20 +138,18 @@ const renderError = function () {
 
 const render = function () {
     renderError();
-
+    
     if (!store.adding){
-        console.log('working');
+        console.log('line 137 working');
         let bookmarks = [...store.bookmarks];
-
         
 
         const addAndFilterButtons = generateAddandFilterButton();
 
-        const bookmarkElementString = generateBookmarkElementString(bookmarks);
-
-        const bringThemTogether =`${generateAddandFilterButton}`;
-
-        $('#add-new-filter-container').html(addAndFilterButtons);
+        const bookmarkElement = generateBookmarkElementString(bookmarks);
+        // console.log(generateBookmarkElementString(bookmarks))
+        const bringThemTogether =`${addAndFilterButtons} ${bookmarkElement}`;
+        $('#add-new-filter-container').html(bringThemTogether);
         // $('#add-new-filter-container').html('<div id = "bookmark-element-string">'  + bookmarkElementString + '</div>');
         //if you want an edit function you need the id to call on to edit
 
@@ -157,7 +163,25 @@ const render = function () {
     }
 };
 
-
+const handleFilterBy = function() {
+    $('#add-new-filter-container').on('click', '.dropdown-content', event => {
+        event.preventDefault();
+        let bookmarks = [...store.bookmarks];
+        if(store.bookmark.rating === 0) {
+            bookmarks.filter(bookmarks => bookmarks.rating === 0)
+        } else if (store.bookmark.rating === 1){
+            bookmarks.filter(bookmarks => bookmarks.rating === 1)
+        } else if (store.bookmark.rating === 2){
+            bookmarks.filter(bookmarks => bookmarks.rating === 2)
+        } else if (store.bookmark.rating === 3){
+            bookmarks.filter(bookmarks => bookmarks.rating === 3)
+        } else if (store.bookmark.rating === 4){
+            bookmarks.filter(bookmarks => bookmarks.rating === 4)
+        } else {
+            bookmarks.filter(bookmarks => bookmarks.rating === 5)
+        }
+    })
+}
 
 const handleAddBookmarkPage = function () {
    
@@ -178,7 +202,6 @@ const handleNewBookmarkSubmit = function () {
 const handleCreateBookmarkSubmit = function() {
     $('#add-new-filter-container').on('submit', '#submit-bookmark-form', event => {
         event.preventDefault();
-         console.log('WORKING');
 
         const newBookmarks = {
             url:  $('#url-input').val(),
@@ -186,46 +209,38 @@ const handleCreateBookmarkSubmit = function() {
             desc: $('#description-input').val(),
             rating: $('#rating-input').val()
         };
-
-        console.log(newBookmarks);
+        
         api.createBookmark(newBookmarks)
+            .then(res => res.json())
             .then((newBookmarks) => {
                 store.addBookmark(newBookmarks);
-                render()
+                render();
             })
             .catch((error) => {
                 store.setError(error.message);
                 render();
             });
     });
-    
-}
 
+};
 
-
-
-const handleFilterBySubmit = function () {
-    //upon clicking on a rating handle the proper elements in the DOM
-    //if 3 stars call upon function to display only 3 star bookmarks
-    //change the filter value in the store to toggle filter
-
-}
-
-const handleExpandedView = function () {
-    //handle click of bookmark to go into detailed view
-    //change boolean value of expanded in the store
-    
+const handleCancelAddSubmit = function() {
+    $('#add-new-filter-container').on('click', '#cancel-button', event => {
+        event.preventDefault();
+        render();
+    })
 }
 
 
 const bindEventListeners = function () {
     handleNewBookmarkSubmit();
-    handleExpandedView();
-    handleFilterBySubmit();
+    handleFilterBy();
     // handleCloseError();
     handleAddBookmarkPage();
     handleCreateBookmarkSubmit();
-  
+    handleCancelAddSubmit();
+    handleExpandView();
+
 }
 
 export default {

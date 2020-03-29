@@ -37,13 +37,14 @@ import store from './store'
 //   };
 
 const getBookmarks = function () {
-    return fetch(`${BASE_URL}/bookmarks`);
+    return fetch (`${BASE_URL}/bookmarks`);
   };
 
 
   
-  const createBookmark = function (title, url) {
-    const newBookmark = JSON.stringify({ title, url });
+  const createBookmark = function (bookmark) {
+    const newBookmark = JSON.stringify(bookmark);
+    console.log('api 47', newBookmark);
     return fetch (`${BASE_URL}/bookmarks`, {
       method: 'POST',
       headers: {

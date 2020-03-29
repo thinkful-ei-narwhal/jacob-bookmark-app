@@ -5,10 +5,10 @@ const adding = false;
 const filter = 0;
 const error = null;
 const expanded = false;
-
+console.log(bookmarks);
 
 function findById(id) {
-  return this.items.find(item => item.id === id);
+  return this.bookmarks.find(bookmark => bookmark.id === id);
 }
 
 function findAndUpdate(id, newData) {
@@ -18,8 +18,8 @@ function findAndUpdate(id, newData) {
 
 
 function addBookmark(bookmark) {
-   bookmark.expanded = false;
    this.bookmarks.push(bookmark);
+
 
 }
 
