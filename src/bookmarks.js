@@ -50,19 +50,21 @@ const generateBookmarkElement = function(bookmark) {
     if (!bookmark.expanded)
      {
         return `
-        <div id = 'bookmarks'  
-        <div data-bookmark-id = '${bookmark.id}' class = 'bookmark animate'>
-             <div id = 'title'> ${bookmark.title}<span id = 'stars'> ${generateStars(bookmark.rating)} </span> </div>
-         </div> 
+        <div id = 'bookmarks'>
+        <ul>
+            <div data-bookmark-id = '${bookmark.id}' class = 'bookmark animate'>
+            <li id = 'title'> ${bookmark.title}<span id = 'stars'> ${generateStars(bookmark.rating)} </span></li>
+         </div>
+        </ul> 
        </div>`   
      } else {
     
         return `
   <div id = 'bookmarks'  
      <div data-bookmark-id = '${bookmark.id}' class = 'bookmark'>
-          <div id = 'title'> ${bookmark.title}<span id = 'stars'> ${generateStars(bookmark.rating)} </span> </div>
+     <li id = 'title'> ${bookmark.title}<span id = 'stars'> ${generateStars(bookmark.rating)} </span></li>
           <div id = 'content'> 
-          <div id = 'delete'> <button id = 'delete-bookmark' type = 'click'>Delete</button> </div>
+          <div id = 'delete'> <button id = 'delete-bookmark' type = 'button'>Delete</button> </div>
             <p id = 'description'>${bookmark.desc} </p> 
           </div>
       </div> 

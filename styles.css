@@ -5,6 +5,12 @@ body {
     background-color: rgba(204, 204, 255, .4);
     box-sizing: border-box;
 }
+
+ul {
+    list-style-type: none;
+    border-radius: 25px;
+    margin-right: 25px;
+}
 #content {
     display: flex;
     justify-content: space-evenly;
