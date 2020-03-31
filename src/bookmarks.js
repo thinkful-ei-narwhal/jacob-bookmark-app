@@ -66,7 +66,7 @@ const generateBookmarkElement = function(bookmark) {
               <div> 
                  <button onclick="window.location.href = '${bookmark.url}';" type = 'button' id = 'visit-site'> Visit Site </button> </a>
               </div>
-              <p> Description: ${bookmark.desc} </p> 
+              <p>${bookmark.desc} </p> 
           </div>
       </div> 
     </div>`
@@ -328,7 +328,6 @@ const handleDeleteBookmark = function() {
     $('#add-new-filter-container').on('click', '#delete-bookmark', event => {
         const id = getItemIdFromElement(event.currentTarget);
         const bookmark = store.findById(id)
-        console.log('line 264', bookmark)
         api.deleteBookmark(id)
           .then(() => {
             store.findAndDelete(id);

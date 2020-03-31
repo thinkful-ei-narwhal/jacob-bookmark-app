@@ -17,8 +17,6 @@ function findAndUpdate(id, newData) {
 }
 
 
-
-
 function addBookmark(bookmark) {
     const newBookmark = {
         id: bookmark.id,
