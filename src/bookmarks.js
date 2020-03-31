@@ -5,25 +5,30 @@ import index from './index'
 
 const generateAddandFilterButton = function () {
     return  `
-    <div id = 'add-filter-buttons'>  
-     <div class = 'add-new-button'>
-        <button class = 'add-new'> + Bookmark </button> 
-    </div>
-    <div class = 'dropdown'>
-        <form id = 'filter-form'>
-            <button class= "dropbtn" > Filter By </button>
-                <div class="dropdown-content">
-                    <ul id = 'filter-stars'>
-                        <li><span> &#9733; </span></li>
-                        <li><span> &#9733; &#9733; </span> </li>
-                        <li><span> &#9733; &#9733; &#9733; </span></li>
-                        <li><span> &#9733; &#9733; &#9733; &#9733; </span></li>
-                        <li><span> &#9733; &#9733; &#9733; &#9733; &#9733; </span></li>
-                </div>
-        </form>
-     </div>
-    </div>`; 
-}
+    <div id = 'button-container'
+        <div id = 'add-filter-buttons'>  
+        <div class = 'add-new-button'>
+            <button class = 'add-new'> + Bookmark </button> 
+        </div>
+        <button id = 'clear-filter'> Clear Filter </button>
+        <div class = 'dropdown'>
+            <form id = 'filter-form'>
+                <div class= "dropbtn" > Filter By </div>
+                    <div class="dropdown-content">
+                        <ul id = 'filter-stars'>
+                            <a id = 'filter1'><span> &#9733; </span></a>
+                            <a id = 'filter2'><span> &#9733; &#9733; </span> </a>
+                            <a id = 'filter3'><span> &#9733; &#9733; &#9733; </span></a>
+                            <a id = 'filter4'><span> &#9733; &#9733; &#9733; &#9733; </span></a>
+                            <a id = 'filter5'><span> &#9733; &#9733; &#9733; &#9733; &#9733; </span></button>
+                            <a id = 'high-low'><span> High to Low</span></a>
+                            <a id = 'low-high'><span> Low to High</span></a>
+                    </div>
+            </form>
+        </div>
+        </div>
+        </div>`; 
+    }
 
 
 
@@ -41,26 +46,42 @@ const generateAddandFilterButton = function () {
 
 
 const generateBookmarkElement = function(bookmark) {
-       return  ` 
-       <div id = '${bookmark.id}' class = 'bookmark'>
-            <div id = 'title'> ${bookmark.title}<span id = 'stars'> ${generateStars(bookmark.rating)} </span> </div>
-            <div id = 'expand'> <button id = 'collapsible' type = 'collapsible'>&#x2193</button> </div>
-            
-            <div id = 'content' hidden> 
-                <div> 
-                   <a href = '${bookmark.url}'> <button type = 'button' id = 'visit-site'> Visit Site </button> </a>
-                    <span> ${bookmark.rating} </span>
-                </div>
-                <p> ${bookmark.desc} </p> 
-            </div>
-        </div> ` //onclick unhide the div
-
+      
+    if (!bookmark.expanded)
+     {
+        return `
+        <div id = 'bookmarks'  
+        <div data-bookmark-id = '${bookmark.id}' class = 'bookmark animate'>
+             <div id = 'title'> ${bookmark.title}<span id = 'stars'> ${generateStars(bookmark.rating)} </span> </div>
+         </div> 
+       </div>`   
+     } else {
+    
+        return `
+  <div id = 'bookmarks'  
+     <div data-bookmark-id = '${bookmark.id}' class = 'bookmark'>
+          <div id = 'title'> ${bookmark.title}<span id = 'stars'> ${generateStars(bookmark.rating)} </span> </div>
+          <div id = 'content'> 
+          <div id = 'delete'> <button id = 'delete-bookmark' type = 'click'>Delete</button> </div>
+              <div> 
+                 <button onclick="window.location.href = '${bookmark.url}';" type = 'button' id = 'visit-site'> Visit Site </button> </a>
+              </div>
+              <p> Description: ${bookmark.desc} </p> 
+          </div>
+      </div> 
+    </div>`
+     }
+     
 }
 
 const handleExpandView = function () {
-    $('#add-new-filter-container').on('click', '#collapsible', event => {
+    $('#add-new-filter-container').on('click', '.bookmark', event => {
         event.preventDefault();
-        $('#content').closest('div').toggle(500);
+        const id = getItemIdFromElement(event.currentTarget);
+        const bookmark = store.findById(id);
+        store.toggleExpandeView(bookmark);
+        render();
+
     });
 
 } 
@@ -83,72 +104,106 @@ return stars;
 
 const generateBookmarkElementString = function (bookmarkList) {
     let bookmarks = bookmarkList.map(bookmark => generateBookmarkElement(bookmark)).join("");
-    console.log('line 76', bookmarkList)
-    console.log(generateBookmarkElement(bookmarks))
     return bookmarks;
   };
 
 
-
-const generateAddBookmarkPage = function () {
-    //if add bookark clicked generate this HTML
-}
-
-// const generateError = function (message) {
-//     //HTML for error message
-// }
-
-
 const generateAddandFilterForms = function() {
     return `
+    
     <form id ='submit-bookmark-form'>
+    <h1> Create New Bookmark </h1>
         <label for = 'url-input'> URL: </label>
-        <input type = 'text' id = 'url-input' name = 'submit-bookmark-form' placeholder = 'url'>
+        <input type = 'text' id = 'url-input' name = 'submit-bookmark-form' required placeholder = 'url'>
         <label for = 'bookmark-input'> Bookmark: </label>
-        <input type = 'text' id = 'bookmark-input' name = 'submit-bookmark-form' placeholder = 'Bookmark Name'>
-        <label for = 'rating-input'> 1 - 5  </label>
+        <input type = 'text' id = 'bookmark-input' name = 'submit-bookmark-form' required placeholder = 'Bookmark Name'>
+        <label for = 'rating-input'> Rating: </label>
         <input type = 'text' id = 'rating-input' name = 'submit-bookmark-form' placeholder = '1 - 5'>
         <label for = 'description-input'>Description: </label>
         <input type = 'text' id = 'description-input' name = 'submit-bookmark-form' placeholder = 'Enter your description here:'>
+        <div id = 'error-container'> </div>
         <button id = 'create' type = 'submit'> Create </button>
         <button id = 'cancel-button' type = 'submit'> Cancel </button>
     </form>
+    <div id = 'error-container'> </div>
     `;
 
 }
+
+const generateHeader = function() {
+     return `<h1>My Bookmarks</h1>`
+
+}
+
+const generateAddHeader = function (){
+    return `<h1> Add New Bookmark </h1>`
+}
+
+
+
+const generateError = function (message){
+    return `
+        <div class = 'error-container'>
+            <div id = 'error-button'>
+                <button id = 'cancel-error' type = 'submit'> X </button>
+             </div>
+            <div id = 'error-message'>
+                <p> ${message}</p>
+            </div>
+        </div    
+    `;
+}
+
+
 
 const renderError = function () {
     // if there is an error add the HTML for the error message
     if (store.error) {
         const el = generateError(store.error);
-        $('.error-container').html(el);
+        $('#error-container').html(el);
       } else {
-        $('.error-container').empty();
+        $('#error-container').empty();
       }
 }
 
-// const handleCloseError = function {
-//     //on click of X remove the HTML for the error message
-//     $('.error-container').on('click', '#cancel-error', () => {
-//         store.setError(null);
-//         renderError();
-//       });
+const handleCloseError = function() {
+    //on click of X remove the HTML for the error message
+    $('#add-new-filter-container').on('click', '#cancel-error', () => {
+        store.setError(null);
+        renderError();
+      });
 
-// }
+}
 
 const render = function () {
-    renderError();
-    
-    if (!store.adding){
-        console.log('line 137 working');
-        let bookmarks = [...store.bookmarks];
-        
+    // renderError();
+    let bookmarks = [...store.bookmarks];
+    console.log(store.filter)
 
+    if(store.filter === 1 || store.filter === 2 || store.filter === 3 || store.filter === 4 || store.filter === 5) {
+        bookmarks = bookmarks.filter(bookmarks => bookmarks.rating <= store.filter);
+        bookmarks = bookmarks.sort((a,b) => b.rating - a.rating)
+    }
+
+    if(store.filter === 7 ) {
+        bookmarks = bookmarks.sort((a,b) => b.rating - a.rating)
+
+    }
+
+    if(store.filter === 6 ) {
+        console.log(bookmarks)
+        bookmarks = bookmarks.sort((a,b) => a.rating - b.rating)
+        console.log(bookmarks)
+    }
+    
+    if (!store.adding || store.filter === 0){
+        
+        const header = generateHeader();
         const addAndFilterButtons = generateAddandFilterButton();
 
         const bookmarkElement = generateBookmarkElementString(bookmarks);
         // console.log(generateBookmarkElementString(bookmarks))
-        const bringThemTogether =`${addAndFilterButtons} ${bookmarkElement}`;
+        const bringThemTogether =`${header}${addAndFilterButtons} ${bookmarkElement}`;
         $('#add-new-filter-container').html(bringThemTogether);
         // $('#add-new-filter-container').html('<div id = "bookmark-element-string">'  + bookmarkElementString + '</div>');
         //if you want an edit function you need the id to call on to edit
@@ -156,36 +211,66 @@ const render = function () {
 
     }
 
-    else {
-        console.log('not working');
-        const addingNewBookmark = generateAddandFilterForms()
+    else if(store.adding) {
+        const addHeader = generateAddHeader();
+        console.log('header', addHeader)
+        const addForms = generateAddandFilterForms();
+        const addingNewBookmark = `${addHeader} ${addForms}`;
         $('#add-new-filter-container').html(addingNewBookmark);
     }
 };
 
 const handleFilterBy = function() {
-    $('#add-new-filter-container').on('click', '.dropdown-content', event => {
+    $('#add-new-filter-container').on('click', '#filter1', event => { 
         event.preventDefault();
-        let bookmarks = [...store.bookmarks];
-        if(store.bookmark.rating === 0) {
-            bookmarks.filter(bookmarks => bookmarks.rating === 0)
-        } else if (store.bookmark.rating === 1){
-            bookmarks.filter(bookmarks => bookmarks.rating === 1)
-        } else if (store.bookmark.rating === 2){
-            bookmarks.filter(bookmarks => bookmarks.rating === 2)
-        } else if (store.bookmark.rating === 3){
-            bookmarks.filter(bookmarks => bookmarks.rating === 3)
-        } else if (store.bookmark.rating === 4){
-            bookmarks.filter(bookmarks => bookmarks.rating === 4)
-        } else {
-            bookmarks.filter(bookmarks => bookmarks.rating === 5)
-        }
-    })
+        store.filter = 1;
+        render();
+    });
+
+    $('#add-new-filter-container').on('click', '#filter2', event => { 
+        event.preventDefault();
+        store.filter = 2;
+        render();
+    });
+
+    $('#add-new-filter-container').on('click', '#filter3', event => { 
+        event.preventDefault();
+        store.filter = 3;
+        render();
+    });
+
+    $('#add-new-filter-container').on('click', '#filter4', event => { 
+        event.preventDefault();
+        store.filter = 4;
+        render();
+    });
+    
+    $('#add-new-filter-container').on('click', '#filter5', event => { 
+        event.preventDefault();
+        store.filter = 5;
+        render();
+    });
+
+    $('#add-new-filter-container').on('click', '#low-high', event => { 
+        event.preventDefault();
+        store.filter = 6;
+        console.log('low to high')
+        render();
+    });
+
+    $('#add-new-filter-container').on('click', '#high-low', event => { 
+        event.preventDefault();
+        store.filter = 7;
+        render();
+    });
+
+    $('#add-new-filter-container').on('click', '#clear-filter', event => { 
+        event.preventDefault();
+        store.filter = 0;
+        render();
+    });
 }
 
-const handleAddBookmarkPage = function () {
-   
-}
 
 const handleNewBookmarkSubmit = function () {
     // upon submitting a new bookmark -> add the html into the page
@@ -218,7 +303,7 @@ const handleCreateBookmarkSubmit = function() {
             })
             .catch((error) => {
                 store.setError(error.message);
-                render();
+                renderError();
             });
     });
 
@@ -231,19 +316,45 @@ const handleCancelAddSubmit = function() {
     })
 }
 
+const getItemIdFromElement = function (item) {
+    return $(item)
+      .closest('.bookmark')
+      .data('bookmark-id');
+  };
+  
+
+  
+const handleDeleteBookmark = function() {
+    $('#add-new-filter-container').on('click', '#delete-bookmark', event => {
+        const id = getItemIdFromElement(event.currentTarget);
+        const bookmark = store.findById(id)
+        console.log('line 264', bookmark)
+        api.deleteBookmark(id)
+          .then(() => {
+            store.findAndDelete(id);
+            render();
+          })
+          .catch((error) => {
+            console.log(error);
+            store.setError(error.message);
+            renderError();
+          });
+      });
+    };
+
 
 const bindEventListeners = function () {
     handleNewBookmarkSubmit();
     handleFilterBy();
-    // handleCloseError();
-    handleAddBookmarkPage();
+    handleCloseError();
     handleCreateBookmarkSubmit();
     handleCancelAddSubmit();
     handleExpandView();
-
+    handleDeleteBookmark();
 }
 
 export default {
     render,
-    bindEventListeners
+    bindEventListeners,
+    renderError
 };

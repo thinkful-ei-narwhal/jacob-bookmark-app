@@ -7,7 +7,7 @@ import store from './store'
 const main = function () {
 
 api.getBookmarks()
-    .then(res => res.json())
+    // .then(res => res.json())
     .then((bookmarks) => {
         console.log('index 13', bookmarks)
         return bookmarks.forEach((bookmark) => store.addBookmark(bookmark))
@@ -18,6 +18,10 @@ api.getBookmarks()
 
          bookmarks.render();
         })
+    .catch((error) => {
+        store.setError(error.message);
+        bookmarks.renderError();
+    })
   };
   
 

@@ -17,23 +17,40 @@ function findAndUpdate(id, newData) {
 }
 
 
+
+
 function addBookmark(bookmark) {
-   this.bookmarks.push(bookmark);
+    const newBookmark = {
+        id: bookmark.id,
+        title: bookmark.title,
+        rating: bookmark.rating,
+        url: bookmark.url,
+        desc: bookmark.desc,
+        expanded: false
+    };
 
+   this.bookmarks.push(newBookmark);
+}
 
+function toggleExpandeView(bookmark) {
+    bookmark.expanded = !bookmark.expanded;
 }
 
 function findAndDelete(id) {
-  this.items = this.items.filter(item => item.id !== id);
+    this.bookmarks = this.bookmarks.filter(item => item.id !== id);
 }
 
-function toggleRatingFilter() {
-  this.hideCheckedItems = !this.hideCheckedItems;
-}
+function toggleRatingFilter(rating) {
+    this.filter = rating;
+   
+} 
+
 
 const setError = function (error) {
   this.error = error;
 };
+
+
 
 export default {
   bookmarks,
@@ -42,5 +59,9 @@ export default {
   addBookmark,
   findAndDelete,
   toggleRatingFilter,
-  setError
+  setError,
+  toggleExpandeView,
+  toggleRatingFilter,
+  filter,
+  error
 };
