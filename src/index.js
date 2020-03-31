@@ -15,7 +15,6 @@ api.getBookmarks()
      .then(event =>
         {
         bookmarks.bindEventListeners();
-
          bookmarks.render();
         })
     .catch((error) => {
@@ -23,6 +22,7 @@ api.getBookmarks()
         bookmarks.renderError();
     })
   };
-  
+
+  bookmarks.render();
 
   $(main);

@@ -1,4 +1,5 @@
 const BASE_URL = 'https://thinkful-list-api.herokuapp.com/jacobflaxman1';
+import $ from 'jquery'
 import store from './store'
 
 const listApiFetch = function (...args) {

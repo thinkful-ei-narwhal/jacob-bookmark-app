@@ -13,7 +13,7 @@ const generateAddandFilterButton = function () {
         <button id = 'clear-filter'> Clear Filter </button>
         <div class = 'dropdown'>
             <form id = 'filter-form'>
-                <div class= "dropbtn" > Filter By </div>
+                <div class= "dropbtn" > <p> Filter By</p> </div>
                     <div class="dropdown-content">
                         <ul id = 'filter-stars'>
                             <a id = 'filter1'><span> &#9733; </span></a>
@@ -63,12 +63,12 @@ const generateBookmarkElement = function(bookmark) {
           <div id = 'title'> ${bookmark.title}<span id = 'stars'> ${generateStars(bookmark.rating)} </span> </div>
           <div id = 'content'> 
           <div id = 'delete'> <button id = 'delete-bookmark' type = 'click'>Delete</button> </div>
-              <div> 
-                 <button onclick="window.location.href = '${bookmark.url}';" type = 'button' id = 'visit-site'> Visit Site </button> </a>
-              </div>
-              <p>${bookmark.desc} </p> 
+            <p id = 'description'>${bookmark.desc} </p> 
           </div>
       </div> 
+      <div> 
+      <a target = '_blank' href = '${bookmark.url}'id = 'visit-site'> Visit Site </a>
+   </div>
     </div>`
      }
      
@@ -181,7 +181,7 @@ const render = function () {
     console.log(store.filter)
 
     if(store.filter === 1 || store.filter === 2 || store.filter === 3 || store.filter === 4 || store.filter === 5) {
-        bookmarks = bookmarks.filter(bookmarks => bookmarks.rating <= store.filter);
+        bookmarks = bookmarks.filter(bookmarks => bookmarks.rating >= store.filter);
         bookmarks = bookmarks.sort((a,b) => b.rating - a.rating)
     }
 
@@ -203,8 +203,9 @@ const render = function () {
 
         const bookmarkElement = generateBookmarkElementString(bookmarks);
         // console.log(generateBookmarkElementString(bookmarks))
-        const bringThemTogether =`${header}${addAndFilterButtons} ${bookmarkElement}`;
+        const bringThemTogether =`${header}${addAndFilterButtons}${bookmarkElement}`;
         $('#add-new-filter-container').html(bringThemTogether);
+        
         // $('#add-new-filter-container').html('<div id = "bookmark-element-string">'  + bookmarkElementString + '</div>');
         //if you want an edit function you need the id to call on to edit
 
@@ -296,7 +297,6 @@ const handleCreateBookmarkSubmit = function() {
         };
         
         api.createBookmark(newBookmarks)
-            .then(res => res.json())
             .then((newBookmarks) => {
                 store.addBookmark(newBookmarks);
                 render();

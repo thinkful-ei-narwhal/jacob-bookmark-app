@@ -4,8 +4,6 @@ const bookmarks = [];
 const adding = false;
 const filter = 0;
 const error = null;
-const expanded = false;
-console.log(bookmarks);
 
 function findById(id) {
   return this.bookmarks.find(bookmark => bookmark.id === id);
