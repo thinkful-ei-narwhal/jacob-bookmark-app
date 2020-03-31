@@ -47,6 +47,7 @@ p {
     display:flex;
     justify-content: space-evenly;
     padding: 10px;
+    
 }
 
 #clear-filter {
@@ -262,4 +263,19 @@ input {
 #error-message {
     font-family: 'Slabo 27px', serif;
     color: red;
+}
+
+@media (min-width: 100px) {
+    #button-container {
+        display:flex;
+        justify-content: center;
+        padding: 10px;
+        flex-direction:row;
+        flex-shrink: 65%;
+        font-size: 16px;
+    }
+    
+button {
+    font-size: 16px;
+}
 }
