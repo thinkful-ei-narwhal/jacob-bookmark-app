@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import store from './store'
 import api from './api';
-import index from './index'
+
 
 const generateAddandFilterButton = function () {
     return  `
