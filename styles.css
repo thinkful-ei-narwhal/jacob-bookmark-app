@@ -6,20 +6,12 @@ body {
     box-sizing: border-box;
 }
 
-ul {
-    list-style-type: none;
-    border-radius: 25px;
-    margin-right: 25px;
-}
-#content {
-    display: flex;
-    justify-content: space-evenly;
-    flex-direction: column;
-    align-items: flex-start;
-}
+
 #delete {
-    align-self: flex-end;
+    align-self: center;
 }
+
+
 #delete-bookmark {
     padding: 10px;
     background-color: rgb(218, 50, 50);
@@ -28,7 +20,8 @@ ul {
 	font-family: 'Pacifico', cursive;
 	font-size: 18px;
 	color: #FFF;
-	text-decoration: none;
+    text-decoration: none;
+    margin: 10px;
 
 }
 
@@ -41,6 +34,7 @@ ul {
     padding-top: 10px;
     font-family: 'Slabo 27px', serif;
     font-size: 18px;
+
 
 }
 
@@ -58,9 +52,6 @@ ul {
     
 }
 
-select {
-
-}
 
 #clear-filter {
     background-color: rgb(38, 104, 121, .5);
@@ -118,14 +109,28 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 2px solid grey;
+    border-radius: 25px;
+    width: 85%;
+    padding: 7px;
+    border: 2px solid grey;
+    background-color: rgba(204, 204, 255, .6);
+    box-shadow: 5px 5px;
+    margin-left: 50px;
 }
 
-
-.bookmark-li {
+#stars {
     display: flex;
-    justify-content: flex-start;
-    border: 2px solid grey;
+    justify-content: flex-end;
+}
 
+.bookmark {
+    border: 2px solid grey;
+    width: 85%;
+    padding: 7px;
+    border: 2px solid grey;
+    background-color: rgba(204, 204, 255, .6);
+    box-shadow: 5px 5px;
 }
 
 
@@ -136,6 +141,9 @@ p {
     
 }
 
+#expanded-button {
+    background-color: rgba(1, 1, 8, 0.6);
+}
 
 #title {
     display: flex;
@@ -143,16 +151,13 @@ p {
     padding: 5px;
 }
 
-.bookmark {
-    padding: 7px;
-    border: 2px solid grey;
-    background-color: rgba(204, 204, 255, .6);
-    box-shadow: 5px 5px;
-}
 
 #bookmarks {
     margin: 6px;
     border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    margin: 20px;
 }
 
 
@@ -234,7 +239,7 @@ input {
     display: flex;
     justify-content: center;
     width: 50%;
-    margin-left:15px;
+    margin-left:200px;
 }
 
 #visit-site:hover {

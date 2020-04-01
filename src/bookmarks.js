@@ -15,13 +15,13 @@ const generateAddandFilterButton = function () {
         <label for = 'filter'> Filter By </label>
             <select id = 'filter'>
                 <div class= "dropbtn">Filter By </div>
-                            <option value="1"> &#9733 </option>
-                            <option value="2"> &#9733 &#9733 </option>
-                            <option value="3"> &#9733 &#9733 &#9733 </option>
-                            <option value="4"> &#9733 &#9733 &#9733 &#9733 </option>
-                            <option value="5"> &#9733 &#9733 &#9733 &#9733 &#9733 </option>
-                            <option value="6"> Low to High </option>
-                            <option value="7"> High to Low </option>
+                            <option value="1" ${displayFilter(1)}> &#9733 </option>
+                            <option value="2" ${displayFilter(2)} > &#9733 &#9733 </option>
+                            <option value="3" ${displayFilter(3)} > &#9733 &#9733 &#9733 </option>
+                            <option value="4" ${displayFilter(4)}> &#9733 &#9733 &#9733 &#9733 </option>
+                            <option value="5" ${displayFilter(5)}> &#9733 &#9733 &#9733 &#9733 &#9733 </option>
+                            <option value="6" ${displayFilter(6)}> Low to High </option>
+                            <option value="7" ${displayFilter(7)}> High to Low </option>
                     </div>
             </select>
         </div>
@@ -50,26 +50,27 @@ const generateBookmarkElement = function(bookmark) {
      {
         return `
         <div id = 'bookmarks'>
-        <ul>
-            <div data-bookmark-id = '${bookmark.id}' class = 'bookmark animate'>
-            <li id = 'title'> ${bookmark.title}<span id = 'stars'> ${generateStars(bookmark.rating)} </span></li>
-         </div>
-        </ul> 
+            <button data-bookmark-id = '${bookmark.id}' class = 'bookmark'>
+                <div id = 'title'> ${bookmark.title}<span id = 'stars'> ${generateStars(bookmark.rating)} </span>
+                </div>
+         </button> 
        </div>`   
      } else {
     
         return `
-  <div id = 'bookmarks'  
-     <div data-bookmark-id = '${bookmark.id}' class = 'bookmark'>
-     <li id = 'title'> ${bookmark.title}<span id = 'stars'> ${generateStars(bookmark.rating)} </span></li>
+  <div id = 'bookmarks'>
+     <button id = 'expanded-button' data-bookmark-id = '${bookmark.id}' class = 'bookmark'>
+        <div id = 'title'> ${bookmark.title}<span id = 'stars'> ${generateStars(bookmark.rating)} </span>
+        </div>
           <div id = 'content'> 
-          <div id = 'delete'> <button id = 'delete-bookmark' type = 'button'>Delete</button> </div>
+          <div id = 'delete'> <button id = 'delete-bookmark' type = 'button'>Delete</button> 
+          </div>
             <p id = 'description'>${bookmark.desc} </p> 
           </div>
       </div> 
       <div> 
       <a target = '_blank' href = '${bookmark.url}'id = 'visit-site'> Visit Site </a>
-   </div>
+     </button>
     </div>`
      }
      
@@ -204,6 +205,7 @@ const render = function () {
         // console.log(generateBookmarkElementString(bookmarks))
         const bringThemTogether =`${header}${addAndFilterButtons}${bookmarkElement}`;
         $('#add-new-filter-container').html(bringThemTogether);
+
         
         // $('#add-new-filter-container').html('<div id = "bookmark-element-string">'  + bookmarkElementString + '</div>');
         //if you want an edit function you need the id to call on to edit
@@ -219,6 +221,18 @@ const render = function () {
         $('#add-new-filter-container').html(addingNewBookmark);
     }
 };
+
+const displayFilter = function(num) {
+    console.log('oh my god pls work', store.filter)
+    if (Number(store.filter) === Number(num)){
+        console.log('line 225', 'selected')
+        return 'selected';
+    } 
+    
+    else { 
+        return ''; 
+        }
+}
 
 const handleFilterBy = function() {
   
