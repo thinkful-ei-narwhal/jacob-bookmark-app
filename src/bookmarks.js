@@ -12,19 +12,18 @@ const generateAddandFilterButton = function () {
         </div>
         <button id = 'clear-filter'> Clear Filter </button>
         <div class = 'dropdown'>
-            <form id = 'filter-form'>
-                <div class= "dropbtn" > <p> Filter By</p> </div>
-                    <div class="dropdown-content">
-                        <ul id = 'filter-stars'>
-                            <a id = 'filter1'><span> &#9733; </span></a>
-                            <a id = 'filter2'><span> &#9733; &#9733; </span> </a>
-                            <a id = 'filter3'><span> &#9733; &#9733; &#9733; </span></a>
-                            <a id = 'filter4'><span> &#9733; &#9733; &#9733; &#9733; </span></a>
-                            <a id = 'filter5'><span> &#9733; &#9733; &#9733; &#9733; &#9733; </span></button>
-                            <a id = 'high-low'><span> High to Low</span></a>
-                            <a id = 'low-high'><span> Low to High</span></a>
+        <label for = 'filter'> Filter By </label>
+            <select id = 'filter'>
+                <div class= "dropbtn">Filter By </div>
+                            <option value="1"> &#9733 </option>
+                            <option value="2"> &#9733 &#9733 </option>
+                            <option value="3"> &#9733 &#9733 &#9733 </option>
+                            <option value="4"> &#9733 &#9733 &#9733 &#9733 </option>
+                            <option value="5"> &#9733 &#9733 &#9733 &#9733 &#9733 </option>
+                            <option value="6"> Low to High </option>
+                            <option value="7"> High to Low </option>
                     </div>
-            </form>
+            </select>
         </div>
         </div>
         </div>`; 
@@ -178,7 +177,7 @@ const handleCloseError = function() {
 }
 
 const render = function () {
-    // renderError();
+    renderError();
     let bookmarks = [...store.bookmarks];
     console.log(store.filter)
 
@@ -193,9 +192,7 @@ const render = function () {
     }
 
     if(store.filter === 6 ) {
-        console.log(bookmarks)
         bookmarks = bookmarks.sort((a,b) => a.rating - b.rating)
-        console.log(bookmarks)
     }
     
     if (!store.adding || store.filter === 0){
@@ -224,48 +221,14 @@ const render = function () {
 };
 
 const handleFilterBy = function() {
-    $('#add-new-filter-container').on('click', '#filter1', event => { 
-        event.preventDefault();
-        store.filter = 1;
+  
+    $('#add-new-filter-container').on('change', '#filter', function (){
+        let filterVal = $('option:selected').val();
+        filterVal = Number(filterVal);
+        store.filter = filterVal;
+        console.log(store.filter)
         render();
-    });
-
-    $('#add-new-filter-container').on('click', '#filter2', event => { 
-        event.preventDefault();
-        store.filter = 2;
-        render();
-    });
-
-    $('#add-new-filter-container').on('click', '#filter3', event => { 
-        event.preventDefault();
-        store.filter = 3;
-        render();
-    });
-
-    $('#add-new-filter-container').on('click', '#filter4', event => { 
-        event.preventDefault();
-        store.filter = 4;
-        render();
-    });
-    
-    $('#add-new-filter-container').on('click', '#filter5', event => { 
-        event.preventDefault();
-        store.filter = 5;
-        render();
-    });
-
-    $('#add-new-filter-container').on('click', '#low-high', event => { 
-        event.preventDefault();
-        store.filter = 6;
-        console.log('low to high')
-        render();
-    });
-
-    $('#add-new-filter-container').on('click', '#high-low', event => { 
-        event.preventDefault();
-        store.filter = 7;
-        render();
-    });
+        });
 
     $('#add-new-filter-container').on('click', '#clear-filter', event => { 
         event.preventDefault();
@@ -298,6 +261,10 @@ const handleCreateBookmarkSubmit = function() {
             rating: $('#rating-input').val()
         };
         
+        if(typeof (newBookmarks.title) === 'undefined' || newBookmarks.title === '' ) {
+            newBookmarks.title = 'Think of a clever name for your bookmark'
+        }
+
         api.createBookmark(newBookmarks)
             .then((newBookmarks) => {
                 store.addBookmark(newBookmarks);

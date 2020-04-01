@@ -51,20 +51,31 @@ ul {
 
 #button-container {
     padding: 10px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     
 }
 
+select {
+
+}
+
 #clear-filter {
-    background-color: #3498DB;
-    border-bottom: 5px solid #2980B9;
-    padding: 10px 40px;
-    border-radius: 10px;
+    background-color: rgb(38, 104, 121, .5);
+    border-bottom: 5px solid rgb(212, 81, 99);
+    padding: 5px;
+    margin: 10px;
+    border-radius: 15px;
 	font-family: 'Pacifico', cursive;
-	font-size: 25px;
-	color: rgb(243, 200, 200);
+	font-size: 18px;
+	color: #FFF;
     text-decoration: none;
-    box-shadow: 5px 5px;
-    width:100%;
+    width: 20%;
+    display: flex;
+    text-align: center;
+    justify-content: center;
 }
 
 #clear-filter:hover {
@@ -95,43 +106,13 @@ h1 {
 }
 
 
-.dropbtn {
-    background-color: #3498DB;
-    border-bottom: 5px solid #2980B9;
-    border-radius: 10px;
-	font-family: 'Pacifico', cursive;
-	font-size: 25px;
-	color: rgb(243, 200, 200);
-    text-decoration: none;
-    box-shadow: 5px 5px;
-    width: 100%;
+.dropdown  {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
 }
-  
-  .dropdown-content {
-    display: none;
-    position: relative;
-    background-color: rgb(122, 187, 230);
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-  
-  .dropdown-content a {
-    color: black;
-    padding: 12px;
-    text-decoration: none;
-    display: block;
-  }  
-  .dropdown-content a:hover {
-      background-color: rgb(243, 200, 200);
-    }
-  
-  .dropdown:hover .dropdown-content {
-      display: block;
-    }
-  
-  .dropdown:hover .dropbtn {
-      background-color:rgb(122, 187, 230);
-    } 
 
 p {
     display: flex;
@@ -221,12 +202,12 @@ label {
     margin: 10px;
     border-radius: 15px;
 	font-family: 'Pacifico', cursive;
-	font-size: 15px;
+	font-size: 18px;
 	color: #FFF;
     text-decoration: none;
     display: flex;
     justify-content: center;
-    width: 50%;
+    width: 170%;
 }
 input {
     background-color: rgb(38, 104, 121, .1);

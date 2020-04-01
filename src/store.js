@@ -1,5 +1,4 @@
 
-
 const bookmarks = [];
 const adding = false;
 const filter = 0;
