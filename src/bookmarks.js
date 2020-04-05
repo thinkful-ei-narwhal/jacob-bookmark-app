@@ -49,29 +49,41 @@ const generateBookmarkElement = function(bookmark) {
     if (!bookmark.expanded)
      {
         return `
+        <ul id = 'bookmark-ul'>
         <div id = 'bookmarks'>
             <button data-bookmark-id = '${bookmark.id}' class = 'bookmark'>
-                <div id = 'title'> ${bookmark.title}<span id = 'stars'> ${generateStars(bookmark.rating)} </span>
-                </div>
+               <li> <div id = 'title'> ${bookmark.title}<span id = 'stars'> ${generateStars(bookmark.rating)} </span>
+                </div> </li>
          </button> 
-       </div>`   
+       </div>
+       </ul>`   
      } else {
     
         return `
+<ul id = 'bookmark-ul'>    
   <div id = 'bookmarks'>
      <button id = 'expanded-button' data-bookmark-id = '${bookmark.id}' class = 'bookmark'>
+       <li>
         <div id = 'title'> ${bookmark.title}<span id = 'stars'> ${generateStars(bookmark.rating)} </span>
-        </div>
+        </div> 
+        </li>
           <div id = 'content'> 
-          <div id = 'delete'> <button id = 'delete-bookmark' type = 'button'>Delete</button> 
+         <li>
+         <div id = 'delete'> <button id = 'delete-bookmark' type = 'button'>Delete</button> 
           </div>
-            <p id = 'description'>${bookmark.desc} </p> 
+           </li>
+        <li>
+        <p id = 'description'>${bookmark.desc} </p>
+         </li>
           </div>
       </div> 
+      <li>
       <div> 
       <a target = '_blank' href = '${bookmark.url}'id = 'visit-site'> Visit Site </a>
-     </button>
-    </div>`
+     </div>
+     </li>
+    </div>
+</ul>`
      }
      
 }
