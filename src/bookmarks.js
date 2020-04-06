@@ -49,51 +49,42 @@ const generateBookmarkElement = function(bookmark) {
     if (!bookmark.expanded)
      {
         return `
-        <ul id = 'bookmark-ul'>
+        <li data-bookmark-id = '${bookmark.id}'>
         <div id = 'bookmarks'>
-            <button data-bookmark-id = '${bookmark.id}' class = 'bookmark'>
-               <li> <div id = 'title'> ${bookmark.title}<span id = 'stars'> ${generateStars(bookmark.rating)} </span>
-                </div> </li>
+            <button class = 'bookmark'>
+               <div id = 'title'> ${bookmark.title}<span id = 'stars'> ${generateStars(bookmark.rating)} </span>
+                </div>
          </button> 
        </div>
-       </ul>`   
+       </li>`   
      } else {
     
         return `
-<ul id = 'bookmark-ul'>    
+<li data-bookmark-id = '${bookmark.id}'>    
   <div id = 'bookmarks'>
-        <button data-bookmark-id = '${bookmark.id}' class = 'bookmark'>
-        <li>
+        <button  class = 'bookmark'>
          <div id = 'title'> ${bookmark.title}<span id = 'stars'> ${generateStars(bookmark.rating)} </span>
         </div> 
-        </li>
         </button> 
         </div> 
-        </li>
           <div id = 'content'> 
-        <li>
          <div id = 'delete'>
           <button id = 'delete-bookmark' type = 'button'>Delete</button> 
           </div>
-        </li>
-        <li>
         <p id = 'description'>${bookmark.desc} </p>
-         </li>
           </div>
       </div> 
-      <li>
       <div> 
       <a target = '_blank' href = '${bookmark.url}'id = 'visit-site'> Visit Site </a>
      </div>
-     </li>
     </div>
-</ul>`
+</li>`
      }
      
 }
 
 const handleExpandView = function () {
-    $('#add-new-filter-container').on('click', '.bookmark', event => {
+    $('#bookmark-container').on('click', '.bookmark', event => {
         event.preventDefault();
         const id = getItemIdFromElement(event.currentTarget);
         console.log(id);
@@ -218,9 +209,10 @@ const render = function () {
         const addAndFilterButtons = generateAddandFilterButton();
 
         const bookmarkElement = generateBookmarkElementString(bookmarks);
-        // console.log(generateBookmarkElementString(bookmarks))
-        const bringThemTogether =`${header}${addAndFilterButtons}${bookmarkElement}`;
+        console.log(generateBookmarkElementString(bookmarks))
+        const bringThemTogether =`${header}${addAndFilterButtons}`;
         $('#add-new-filter-container').html(bringThemTogether);
+        $('#bookmark-container').html(bookmarkElement);
 
         
         // $('#add-new-filter-container').html('<div id = "bookmark-element-string">'  + bookmarkElementString + '</div>');
@@ -315,14 +307,14 @@ const handleCancelAddSubmit = function() {
 
 const getItemIdFromElement = function (item) {
     return $(item)
-      .closest('.bookmark')
+      .closest('li')
       .data('bookmark-id');
   };
   
 
   
 const handleDeleteBookmark = function() {
-    $('#add-new-filter-container').on('click', '#delete-bookmark', event => {
+    $('#bookmark-container').on('click', '#delete-bookmark', event => {
         event.preventDefault();
         const id = getItemIdFromElement(event.currentTarget);
         console.log('testing', id)
