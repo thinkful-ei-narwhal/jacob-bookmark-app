@@ -62,16 +62,20 @@ const generateBookmarkElement = function(bookmark) {
         return `
 <ul id = 'bookmark-ul'>    
   <div id = 'bookmarks'>
-     <button id = 'expanded-button' data-bookmark-id = '${bookmark.id}' class = 'bookmark'>
-       <li>
-        <div id = 'title'> ${bookmark.title}<span id = 'stars'> ${generateStars(bookmark.rating)} </span>
+        <button data-bookmark-id = '${bookmark.id}' class = 'bookmark'>
+        <li>
+         <div id = 'title'> ${bookmark.title}<span id = 'stars'> ${generateStars(bookmark.rating)} </span>
+        </div> 
+        </li>
+        </button> 
         </div> 
         </li>
           <div id = 'content'> 
-         <li>
-         <div id = 'delete'> <button id = 'delete-bookmark' type = 'button'>Delete</button> 
+        <li>
+         <div id = 'delete'>
+          <button id = 'delete-bookmark' type = 'button'>Delete</button> 
           </div>
-           </li>
+        </li>
         <li>
         <p id = 'description'>${bookmark.desc} </p>
          </li>
@@ -92,6 +96,7 @@ const handleExpandView = function () {
     $('#add-new-filter-container').on('click', '.bookmark', event => {
         event.preventDefault();
         const id = getItemIdFromElement(event.currentTarget);
+        console.log(id);
         const bookmark = store.findById(id);
         store.toggleExpandeView(bookmark);
         render();
@@ -192,7 +197,6 @@ const handleCloseError = function() {
 const render = function () {
     renderError();
     let bookmarks = [...store.bookmarks];
-    console.log(store.filter)
 
     if(store.filter === 1 || store.filter === 2 || store.filter === 3 || store.filter === 4 || store.filter === 5) {
         bookmarks = bookmarks.filter(bookmarks => bookmarks.rating >= store.filter);
@@ -235,9 +239,7 @@ const render = function () {
 };
 
 const displayFilter = function(num) {
-    console.log('oh my god pls work', store.filter)
     if (Number(store.filter) === Number(num)){
-        console.log('line 225', 'selected')
         return 'selected';
     } 
     
@@ -321,8 +323,9 @@ const getItemIdFromElement = function (item) {
   
 const handleDeleteBookmark = function() {
     $('#add-new-filter-container').on('click', '#delete-bookmark', event => {
+        event.preventDefault();
         const id = getItemIdFromElement(event.currentTarget);
-        const bookmark = store.findById(id)
+        console.log('testing', id)
         api.deleteBookmark(id)
           .then(() => {
             store.findAndDelete(id);

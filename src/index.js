@@ -9,7 +9,6 @@ const main = function () {
 api.getBookmarks()
     // .then(res => res.json())
     .then((bookmarks) => {
-        console.log('index 13', bookmarks)
         return bookmarks.forEach((bookmark) => store.addBookmark(bookmark))
      })
      .then(event =>
